@@ -14,7 +14,7 @@ from core.dss.Mixin import JsonResponseMixin, MultipleJsonResponseMixin
 class StoreListView(StatusWrapMixin, MultipleJsonResponseMixin, ListView):
     model = Store
     # paginate_by = 20
-    http_method_names = ['get', 'post']
+    http_method_names = ['get', 'post', 'options']
 
     def post(self, request, *args, **kwargs):
         post_data = request.POST
@@ -33,7 +33,7 @@ class StoreListView(StatusWrapMixin, MultipleJsonResponseMixin, ListView):
 class StoreDetailView(StatusWrapMixin, JsonResponseMixin, DetailView):
     model = Store
     pk_url_kwarg = 'sid'
-    http_method_names = ['get', 'post', 'delete']
+    http_method_names = ['get', 'post', 'delete', 'options']
 
     def post(self, request, *args, **kwargs):
         exclude = ['id']
