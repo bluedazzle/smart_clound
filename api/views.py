@@ -33,13 +33,27 @@ class StoreListView(StatusWrapMixin, MultipleJsonResponseMixin, ListView):
 class StoreDetailView(StatusWrapMixin, JsonResponseMixin, DetailView):
     model = Store
     pk_url_kwarg = 'sid'
+    http_method_names = ['get', 'post', 'delete']
 
     def post(self, request, *args, **kwargs):
         exclude = ['id']
         obj = self.get_object()
+        if not obj:
+            self.message = '对象不存在'
+            self.status_code = ERROR_DATA
+            return self.render_to_response({})
         post_data = request.POST
         for k, v in post_data.iteritems():
             if k not in exclude:
                 setattr(obj, k, v)
         obj.save()
+        return self.render_to_response({})
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if not obj:
+            self.message = '对象不存在'
+            self.status_code = ERROR_DATA
+            return self.render_to_response({})
+        obj.delete()
         return self.render_to_response({})
