@@ -17,6 +17,7 @@ class BaseModel(models.Model):
 
 class Store(BaseModel):
     name = models.CharField(max_length=40)
+    picture = models.CharField(max_length=128, default='/static/img/default.jpg')
     phone = models.CharField(max_length=20, default='', null=True, blank=True)
     score = models.FloatField(default=5.0)
     province = models.CharField(max_length=20)
